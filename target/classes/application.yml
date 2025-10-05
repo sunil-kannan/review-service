@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: review-ratings-service
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://edunexustest.cj0eicgekz72.eu-north-1.rds.amazonaws.com:5432/notification
+    username: postgres
+    password: edunexus
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 20MB
+
+server:
+  port: 8085
+  error:
+    include-message: always
+    include-binding-errors: always
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+logging:
+  level:
+    com.reviewservice: INFO
+    org.springframework.web: INFO
+    org.hibernate: WARN
