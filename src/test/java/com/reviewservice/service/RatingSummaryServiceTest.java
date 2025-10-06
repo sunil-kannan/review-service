@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class RatingSummaryServiceTest {
+public class RatingSummaryServiceTest {
 
     @Mock
     private RatingSummaryRepository ratingSummaryRepository;
@@ -39,17 +39,17 @@ class RatingSummaryServiceTest {
     @BeforeEach
     void setUp() {
         ratingSummary = RatingSummary.builder()
-            .id(1L)
-            .entityType("PRODUCT")
-            .entityId("PROD-123")
-            .averageRating(4.5)
-            .totalReviews(10)
-            .fiveStarCount(6)
-            .fourStarCount(3)
-            .threeStarCount(1)
-            .twoStarCount(0)
-            .oneStarCount(0)
-            .build();
+                .id(1L)
+                .entityType("PRODUCT")
+                .entityId("PROD-123")
+                .averageRating(4.5)
+                .totalReviews(10)
+                .fiveStarCount(6)
+                .fourStarCount(3)
+                .threeStarCount(1)
+                .twoStarCount(0)
+                .oneStarCount(0)
+                .build();
 
         reviews = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
@@ -64,12 +64,12 @@ class RatingSummaryServiceTest {
     @Test
     void updateRatingSummary_NewSummary_Success() {
         when(reviewRepository.findByEntityTypeAndEntityIdAndStatusOrderByCreatedAtDesc(
-            "PRODUCT", "PROD-123", "ACTIVE"))
-            .thenReturn(reviews);
+                "PRODUCT", "PROD-123", "ACTIVE"))
+                .thenReturn(reviews);
         when(ratingSummaryRepository.findByEntityTypeAndEntityId("PRODUCT", "PROD-123"))
-            .thenReturn(Optional.empty());
+                .thenReturn(Optional.empty());
         when(ratingSummaryRepository.save(any(RatingSummary.class)))
-            .thenReturn(ratingSummary);
+                .thenReturn(ratingSummary);
 
         ratingSummaryService.updateRatingSummary("PRODUCT", "PROD-123");
 
@@ -79,12 +79,12 @@ class RatingSummaryServiceTest {
     @Test
     void updateRatingSummary_ExistingSummary_Success() {
         when(reviewRepository.findByEntityTypeAndEntityIdAndStatusOrderByCreatedAtDesc(
-            "PRODUCT", "PROD-123", "ACTIVE"))
-            .thenReturn(reviews);
+                "PRODUCT", "PROD-123", "ACTIVE"))
+                .thenReturn(reviews);
         when(ratingSummaryRepository.findByEntityTypeAndEntityId("PRODUCT", "PROD-123"))
-            .thenReturn(Optional.of(ratingSummary));
+                .thenReturn(Optional.of(ratingSummary));
         when(ratingSummaryRepository.save(any(RatingSummary.class)))
-            .thenReturn(ratingSummary);
+                .thenReturn(ratingSummary);
 
         ratingSummaryService.updateRatingSummary("PRODUCT", "PROD-123");
 
@@ -94,12 +94,12 @@ class RatingSummaryServiceTest {
     @Test
     void updateRatingSummary_NoReviews_Success() {
         when(reviewRepository.findByEntityTypeAndEntityIdAndStatusOrderByCreatedAtDesc(
-            "PRODUCT", "PROD-123", "ACTIVE"))
-            .thenReturn(new ArrayList<>());
+                "PRODUCT", "PROD-123", "ACTIVE"))
+                .thenReturn(new ArrayList<>());
         when(ratingSummaryRepository.findByEntityTypeAndEntityId("PRODUCT", "PROD-123"))
-            .thenReturn(Optional.of(ratingSummary));
+                .thenReturn(Optional.of(ratingSummary));
         when(ratingSummaryRepository.save(any(RatingSummary.class)))
-            .thenReturn(ratingSummary);
+                .thenReturn(ratingSummary);
 
         ratingSummaryService.updateRatingSummary("PRODUCT", "PROD-123");
 
@@ -109,7 +109,7 @@ class RatingSummaryServiceTest {
     @Test
     void getRatingSummary_Success() {
         when(ratingSummaryRepository.findByEntityTypeAndEntityId("PRODUCT", "PROD-123"))
-            .thenReturn(Optional.of(ratingSummary));
+                .thenReturn(Optional.of(ratingSummary));
 
         RatingSummaryDto result = ratingSummaryService.getRatingSummary("PRODUCT", "PROD-123");
 
@@ -120,18 +120,18 @@ class RatingSummaryServiceTest {
         assertEquals(10, result.getTotalReviews());
         assertNotNull(result.getRatingDistribution());
         verify(ratingSummaryRepository, times(1))
-            .findByEntityTypeAndEntityId("PRODUCT", "PROD-123");
+                .findByEntityTypeAndEntityId("PRODUCT", "PROD-123");
     }
 
     @Test
     void getRatingSummary_NotFound_ThrowsException() {
         when(ratingSummaryRepository.findByEntityTypeAndEntityId("PRODUCT", "PROD-123"))
-            .thenReturn(Optional.empty());
+                .thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () ->
-            ratingSummaryService.getRatingSummary("PRODUCT", "PROD-123"));
+                ratingSummaryService.getRatingSummary("PRODUCT", "PROD-123"));
 
         verify(ratingSummaryRepository, times(1))
-            .findByEntityTypeAndEntityId("PRODUCT", "PROD-123");
+                .findByEntityTypeAndEntityId("PRODUCT", "PROD-123");
     }
 }
