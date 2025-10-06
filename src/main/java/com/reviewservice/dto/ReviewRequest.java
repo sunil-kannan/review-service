@@ -16,11 +16,11 @@ public class ReviewRequest {
 
     @NotBlank(message = "Entity type is required")
     @Size(max = 50, message = "Entity type must not exceed 50 characters")
-    private String entityType;
+    private String entityType; // product or services
 
     @NotBlank(message = "Entity ID is required")
     @Size(max = 100, message = "Entity ID must not exceed 100 characters")
-    private String entityId;
+    private String entityId; // product or service id
 
     @NotBlank(message = "User ID is required")
     private String userId;
